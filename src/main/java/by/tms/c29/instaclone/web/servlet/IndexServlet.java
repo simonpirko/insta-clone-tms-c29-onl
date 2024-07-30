@@ -13,4 +13,8 @@ public class IndexServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         getServletContext().getRequestDispatcher("/WEB-INF/index.jsp").forward(req, resp);
     }
+
+    public static void main(String[] args) {
+        System.out.println("Hello World");
+    }
 }
