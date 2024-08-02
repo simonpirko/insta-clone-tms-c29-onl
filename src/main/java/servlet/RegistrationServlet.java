@@ -20,12 +20,17 @@ public class RegistrationServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
         String email = req.getParameter("email");
+        try {
+            accountService.save(new Account(username, password, email));
 
-        accountService.save(new Account(username, password, email));
-        resp.sendRedirect("/");
+            resp.sendRedirect("/");
+        } catch (Exception e) {
+            req.setAttribute("errorMessage", "Ошибка при создании аккаунта");
+            getServletContext().getRequestDispatcher("/pages/registration.jsp").forward(req, resp);
+        }
     }
 }

@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="jstl" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>Registration</title>
@@ -35,6 +36,9 @@
                 <button type="submit" class="btn btn-primary w-100">registration</button>
             </div>
         </div>
+        <jstl:if test="${not empty errorMessage}">
+            <p class="text-danger">${errorMessage}</p>
+        </jstl:if>
     </form>
 </div>
 </body>
