@@ -7,6 +7,7 @@ import storage.account.InDBAccountStorage;
 
 public class AccountService implements AccountRepository {
     private static AccountService INSTANCE;
+    private final AccountStorage storage = InDBAccountStorage.getInstance();
 
     private AccountService() {
     }
@@ -19,7 +20,6 @@ public class AccountService implements AccountRepository {
         return INSTANCE;
     }
 
-    AccountStorage storage = InDBAccountStorage.getInstance();
 
     @Override
     public void save(Account account) {

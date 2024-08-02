@@ -2,6 +2,9 @@ package storage.account;
 
 import connection.PostgresConnection;
 import core.model.Account;
+import exceptions.GetAccountByIdException;
+import exceptions.GetAllAccountsException;
+import exceptions.SaveAccountException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -33,7 +36,7 @@ public class InDBAccountStorage implements AccountStorage {
             preparedStatement.setString(3, account.getEmail());
             preparedStatement.execute();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new SaveAccountException(e);
         }
     }
 
@@ -53,7 +56,7 @@ public class InDBAccountStorage implements AccountStorage {
             }
             preparedStatement.execute();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new GetAccountByIdException(e);
         }
 
         return Optional.empty();
@@ -77,7 +80,7 @@ public class InDBAccountStorage implements AccountStorage {
             preparedStatement.execute();
             return accounts;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new GetAllAccountsException(e);
         }
     }
 }
