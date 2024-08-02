@@ -1,4 +1,4 @@
-package exceptions;
+package exceptions.account;
 
 public class GetAllAccountsException extends RuntimeException {
     public GetAllAccountsException(Throwable cause) {

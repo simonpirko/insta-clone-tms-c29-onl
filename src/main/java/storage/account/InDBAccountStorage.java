@@ -2,9 +2,9 @@ package storage.account;
 
 import connection.PostgresConnection;
 import core.model.Account;
-import exceptions.GetAccountByIdException;
-import exceptions.GetAllAccountsException;
-import exceptions.SaveAccountException;
+import exceptions.account.GetAccountByIdException;
+import exceptions.account.GetAllAccountsException;
+import exceptions.account.SaveAccountException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
