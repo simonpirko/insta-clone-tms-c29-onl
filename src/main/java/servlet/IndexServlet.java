@@ -1,4 +1,4 @@
-package by.tms.c29.instaclone.web.servlet;
+package servlet;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,7 +11,7 @@ import java.io.IOException;
 public class IndexServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        getServletContext().getRequestDispatcher("/WEB-INF/index.jsp").forward(req, resp);
+        getServletContext().getRequestDispatcher("/pages/index.jsp").forward(req, resp);
     }
 
     public static void main(String[] args) {
