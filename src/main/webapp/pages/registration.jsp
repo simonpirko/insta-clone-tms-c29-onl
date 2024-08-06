@@ -19,12 +19,13 @@
         <div class="row align-items-center justify-content-center">
             <div class="col-2">
                 <label for="username">Username</label>
-                <input type="text" class="form-control" id="username" placeholder="username"  autocomplete="off" name="username">
+                <input type="text" class="form-control" id="username" placeholder="username" autocomplete="off"
+                       name="username" required>
             </div>
             <div class="col-2">
                 <label for="password">Password</label>
                 <input type="password" class="form-control" id="password" placeholder="password" autocomplete="off"
-                       name="password">
+                       name="password" required>
             </div>
             <div class="col-2">
                 <label for="email">Email</label>
