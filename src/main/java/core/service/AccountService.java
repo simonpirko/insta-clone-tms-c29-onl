@@ -50,10 +50,10 @@ public class AccountService implements AccountRepository, AuthenticatorService {
                 account.setPassword(resultSet.getString("password"));
                 return Optional.of(account);
             }
-            preparedStatement.execute();
         } catch (SQLException e) {
             throw new DatabaseConnectionException(e);
         }
         return Optional.empty();
     }
 }
+

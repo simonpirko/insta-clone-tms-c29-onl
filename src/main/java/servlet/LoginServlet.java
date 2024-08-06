@@ -33,7 +33,7 @@ public class LoginServlet extends HttpServlet {
             req.getSession().setAttribute("account", account);
             resp.sendRedirect("/");
         } else {
-            req.setAttribute("errorMessage", "User not found");
+            req.setAttribute("errorMessage", "Пользователь не найден или неверный пароль");
             getServletContext().getRequestDispatcher("/pages/login.jsp").forward(req, resp);
         }
     }
