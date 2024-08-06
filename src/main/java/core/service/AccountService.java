@@ -4,7 +4,6 @@ import connection.PostgresConnection;
 import core.model.Account;
 import core.repository.AccountRepository;
 import exceptions.DatabaseConnectionException;
-import storage.account.AccountStorage;
 import storage.account.InDBAccountStorage;
 
 import java.sql.Connection;
@@ -13,9 +12,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
 
-public class AccountService implements AccountRepository, AuthenticatorService {
+public class AccountService {
     private static AccountService INSTANCE;
-    private final AccountStorage storage = InDBAccountStorage.getInstance();
+    private final AccountRepository storage = InDBAccountStorage.getInstance();
 
     private AccountService() {
     }
@@ -27,16 +26,13 @@ public class AccountService implements AccountRepository, AuthenticatorService {
 
         return INSTANCE;
     }
-
-
-    @Override
+    
     public void save(Account account) {
         storage.save(account);
     }
 
-    @Override
     public Optional<Account> login(String identifier, String password) {
-        try (Connection connection = PostgresConnection.getInstance().getConnection()) {
+        try (Connection connection = PostgresConnection.getConnection()) {
             PreparedStatement preparedStatement = connection.
                     prepareStatement("SELECT * FROM accounts WHERE (username = ? OR email = ?) AND password = ?");
             preparedStatement.setString(1, identifier);

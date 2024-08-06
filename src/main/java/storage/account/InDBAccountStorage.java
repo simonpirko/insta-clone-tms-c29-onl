@@ -2,6 +2,7 @@ package storage.account;
 
 import connection.PostgresConnection;
 import core.model.Account;
+import core.repository.AccountRepository;
 import exceptions.account.GetAccountByIdException;
 import exceptions.account.GetAllAccountsException;
 import exceptions.account.SaveAccountException;
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class InDBAccountStorage implements AccountStorage {
+public class InDBAccountStorage implements AccountRepository {
     private static InDBAccountStorage INSTANCE;
 
     private InDBAccountStorage() {
@@ -29,7 +30,7 @@ public class InDBAccountStorage implements AccountStorage {
     }
 
     public void save(Account account) {
-        try (Connection connection = PostgresConnection.getInstance().getConnection()) {
+        try (Connection connection = PostgresConnection.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO accounts VALUES (default, ?, ?, ?)");
             preparedStatement.setString(1, account.getUsername());
             preparedStatement.setString(2, account.getPassword());
@@ -41,7 +42,7 @@ public class InDBAccountStorage implements AccountStorage {
     }
 
     public Optional<Account> getById(int id) {
-        try (Connection connection = PostgresConnection.getInstance().getConnection()) {
+        try (Connection connection = PostgresConnection.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM accounts WHERE id = ?");
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -63,7 +64,7 @@ public class InDBAccountStorage implements AccountStorage {
     }
 
     public List<Account> getAll() {
-        try (Connection connection = PostgresConnection.getInstance().getConnection()) {
+        try (Connection connection = PostgresConnection.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM accounts");
             ResultSet resultSet = preparedStatement.executeQuery();
             List<Account> accounts = new ArrayList<>();
