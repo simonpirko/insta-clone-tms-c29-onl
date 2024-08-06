@@ -20,12 +20,12 @@
             <div class="col-3">
                 <label for="username_or_email">username</label>
                 <input type="text" class="form-control" id="username_or_email" placeholder="username or email"
-                       value="${requestScope.username}" autocomplete="off" name="username_or_email">
+                       value="${requestScope.username}" autocomplete="off" name="username_or_email" required>
             </div>
             <div class="col-3">
                 <label for="password">password</label>
                 <input type="password" class="form-control" id="password" placeholder="password" autocomplete="off"
-                       name="password">
+                       name="password" required>
             </div>
         </div>
         <div class="row align-items-center justify-content-center mt-2">

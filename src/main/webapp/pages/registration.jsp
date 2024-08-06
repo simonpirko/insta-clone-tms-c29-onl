@@ -29,7 +29,7 @@
             </div>
             <div class="col-2">
                 <label for="email">Email</label>
-                <input type="email" class="form-control" id="email" placeholder="email" name="email">
+                <input type="email" class="form-control" id="email" placeholder="email" name="email" required>
             </div>
         </div>
         <div class="row align-items-center justify-content-center mt-2">
