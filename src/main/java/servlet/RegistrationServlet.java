@@ -27,7 +27,7 @@ public class RegistrationServlet extends HttpServlet {
         try {
             accountService.save(new Account(username, password, email));
 
-            resp.sendRedirect("/");
+            resp.sendRedirect("/login?username=" + username);
         } catch (Exception e) {
             req.setAttribute("errorMessage", "Ошибка при создании аккаунта");
             getServletContext().getRequestDispatcher("/pages/registration.jsp").forward(req, resp);

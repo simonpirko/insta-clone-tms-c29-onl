@@ -6,8 +6,8 @@ create table accounts
     username varchar not null
         constraint accounts_pk_2
             unique,
-    email    varchar not null,
-    password varchar not null
+    password varchar not null,
+    email    varchar not null
 );
 
 alter table accounts

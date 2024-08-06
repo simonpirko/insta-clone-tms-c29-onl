@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="core" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="_bootstrap.jsp"/>
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
@@ -16,11 +17,30 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <jstl:if test="${sessionScope.user == null}">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/">Home</a>
+                </li>
+                <core:if test="${sessionScope.account == null}">
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/registration">registration</a>
+                        <a class="nav-link" href="/registration">Registration</a>
                     </li>
-                </jstl:if>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login">Login</a>
+                    </li>
+                </core:if>
+                <core:if test="${sessionScope.account != null}">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">Logout</a>
+                    </li>
+                </core:if>
+                <li class="nav-item">
+                    <core:if test="${sessionScope.account == null}">
+                        <a class="nav-link disabled" aria-disabled="true">Hello, Guest</a>
+                    </core:if>
+                    <core:if test="${sessionScope.account != null}">
+                        <a class="nav-link disabled" aria-disabled="true">Hello, ${sessionScope.account.username}</a>
+                    </core:if>
+                </li>
             </ul>
         </div>
     </div>
