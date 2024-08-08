@@ -2,6 +2,11 @@ package core.repository;
 
 import core.model.Account;
 
-public interface AccountRepository {
-    void save(Account account);
+import java.util.List;
+import java.util.Optional;
+
+public interface AccountRepository extends Repository<Account> {
+    Optional<Account> getById(int id);
+
+    List<Account> getAll();
 }

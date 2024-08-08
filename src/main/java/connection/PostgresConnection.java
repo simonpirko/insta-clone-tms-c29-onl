@@ -7,28 +7,22 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class PostgresConnection {
-    private static PostgresConnection INSTANCE;
     private static final String URL = "jdbc:postgresql://localhost:5432/postgres";
     private static final String USER = "postgres";
     private static final String PASSWORD = "root";
 
-    private PostgresConnection() {
-    }
-
-    public static PostgresConnection getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new PostgresConnection();
-        }
-
-        return INSTANCE;
-    }
-
-    public Connection getConnection() {
+    static {
         try {
             Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            throw new DatabaseConnectionException(e);
+        }
+    }
 
+    public static Connection getConnection() {
+        try {
             return DriverManager.getConnection(URL, USER, PASSWORD);
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException e) {
             throw new DatabaseConnectionException(e);
         }
     }
