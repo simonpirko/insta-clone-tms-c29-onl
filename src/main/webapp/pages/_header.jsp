@@ -30,6 +30,11 @@
                 </core:if>
                 <core:if test="${sessionScope.account != null}">
                     <li class="nav-item">
+                        <a class="nav-link" href="/createPost">Создать пост</a>
+                    </li>
+                </core:if>
+                <core:if test="${sessionScope.account != null}">
+                    <li class="nav-item">
                         <a class="nav-link" href="/logout">Logout</a>
                     </li>
                 </core:if>

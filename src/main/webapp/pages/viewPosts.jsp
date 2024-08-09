@@ -11,16 +11,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>View Posts</title>
+    <title>Лента постов</title>
 </head>
 <body>
 <jsp:include page="_header.jsp"/>
 <jsp:include page="_bootstrap.jsp"/>
 <h1>Posts</h1>
-<c:forEach var="post" items="${posts}">
+<c:forEach var="createPost" items="${posts}">
     <div>
         <p>${post.description}</p>
-        <img src="${post.filePath}" alt="Post image">
+        <img src="${post.filePath}" alt="Картинка поста">
         <p>${post.createdAt}</p>
     </div>
 </c:forEach>

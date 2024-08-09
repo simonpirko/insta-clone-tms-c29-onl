@@ -16,12 +16,35 @@
 <jsp:include page="_header.jsp"/>
 <jsp:include page="_bootstrap.jsp"/>
 
-<form action="post" method="post" enctype="multipart/form-data">
-    <label for="description">Description:</label>
-    <input type="text" id="description" name="description" required>
-    <label for="file">Upload File:</label>
-    <input type="file" id="file" name="file" required>
-    <button type="submit">Create Post</button>
-</form>
+<div class="container">
+    <div class="container text-center">
+        <div class="row align-items-start">
+            <div class="col">
+
+            </div>
+            <div class="col-4 mt-5 ">
+                <form action="createPost" method="post" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="file">Загрудить файл:</label>
+                        <input type="file" id="file" name="file" class="form-control" required>
+
+                    </div>
+                    <div class="mb-3">
+                        <label for="description">Описание:</label>
+                        <input type="text" id="description" class="form-control" name="description" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" method="post" action="/viewPost">Создать пост</button>
+                </form>
+
+            </div>
+            <div class="col">
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
