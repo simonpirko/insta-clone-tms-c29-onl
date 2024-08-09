@@ -16,13 +16,18 @@
 <body>
 <jsp:include page="_header.jsp"/>
 <jsp:include page="_bootstrap.jsp"/>
-<h1>Posts</h1>
+<h1>Посты</h1>
+
+
+
 <c:forEach var="createPost" items="${posts}">
     <div>
-        <p>${post.description}</p>
-        <img src="${post.filePath}" alt="Картинка поста">
-        <p>${post.createdAt}</p>
+        <p>${createPost.description}</p>
+        <img src="${createPost.filePath}" alt="Картинка поста">
+        <p>${createPost.createdAt}</p>
     </div>
 </c:forEach>
+
+
 </body>
 </html>

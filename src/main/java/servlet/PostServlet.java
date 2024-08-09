@@ -44,6 +44,6 @@ public class PostServlet extends HttpServlet {
         Post post = new Post(UUID.randomUUID().toString(), description, filePath, new Date());
         PostService.addPost(post);
 
-        response.sendRedirect("viewPosts.jsp");
+        response.sendRedirect("/pages/viewPosts.jsp");
     }
 }

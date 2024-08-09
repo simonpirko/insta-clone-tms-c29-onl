@@ -34,7 +34,10 @@
                         <input type="text" id="description" class="form-control" name="description" required>
                     </div>
 
-                    <button type="submit" class="btn btn-primary" method="post" action="/viewPost">Создать пост</button>
+
+                    <button type="submit" class="btn btn-primary">Создать пост</button>
+
+
                 </form>
 
             </div>
