@@ -16,18 +16,31 @@
 <body>
 <jsp:include page="_header.jsp"/>
 <jsp:include page="_bootstrap.jsp"/>
-<h1>Посты</h1>
 
+<div class="container text-center">
+    <form>
+        <div class="row align-items-center justify-content-center">
 
+            <div class="card" style="width: 18rem;">
 
-<c:forEach var="createPost" items="${posts}">
-    <div>
-        <p>${createPost.description}</p>
-        <img src="${createPost.filePath}" alt="Картинка поста">
-        <p>${createPost.createdAt}</p>
-    </div>
-</c:forEach>
+                <c:forEach var="post" items="${posts}">
+                    <div class="card-body">
+                        <h5 class="card-title">Пост</h5>
+                        <p>${post.description}</p>
+                        <img src="${post.filePath}" class="card-img-top" alt="Картинка поста">
+                        <p>${post.atributs}</p>
+                    </div>
+                    <div >
 
+                        <a href="#" class="btn btn-primary">Лайк</a>
+                    </div>
+                </c:forEach>
+
+            </div>
+
+        </div>
+    </form>
+</div>
 
 </body>
 </html>
