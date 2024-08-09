@@ -60,7 +60,7 @@
                 <artifactId>flyway-maven-plugin</artifactId>
                 <version>10.14.0</version>
                 <configuration>
-                        <cleanDisabled>false</cleanDisabled>
+                    <cleanDisabled>false</cleanDisabled>
                     <url>jdbc:postgresql://localhost:5432/postgres</url>
                     <user>postgres</user>
                     <password>root</password>
