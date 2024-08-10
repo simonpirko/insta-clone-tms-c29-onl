@@ -2,7 +2,7 @@ package core.service;
 
 import core.model.Account;
 import core.repository.AccountRepository;
-import exceptions.account.InvalidPasswordException;
+import exceptions.account.InvalidAccountPasswordException;
 import org.mindrot.jbcrypt.BCrypt;
 import storage.account.InDBAccountStorage;
 
@@ -27,13 +27,13 @@ public class AccountService {
         storage.save(account);
     }
 
-    public Optional<Account> login(String usernameOrEmail, String password) throws InvalidPasswordException {
+    public Optional<Account> login(String usernameOrEmail, String password) throws InvalidAccountPasswordException {
         Optional<Account> accountByUsername = storage.getByUsername(usernameOrEmail);
         if (accountByUsername.isPresent()) {
             if (BCrypt.checkpw(password, accountByUsername.get().getPassword())) {
                 return accountByUsername;
             } else {
-                throw new InvalidPasswordException();
+                throw new InvalidAccountPasswordException();
             }
         }
         Optional<Account> accountByEmail = storage.getByEmail(usernameOrEmail);
@@ -41,7 +41,7 @@ public class AccountService {
             if (BCrypt.checkpw(password, accountByEmail.get().getPassword())) {
                 return accountByEmail;
             } else {
-                throw new InvalidPasswordException();
+                throw new InvalidAccountPasswordException();
             }
         }
         return Optional.empty();

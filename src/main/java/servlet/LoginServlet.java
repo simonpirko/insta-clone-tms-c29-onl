@@ -3,7 +3,7 @@ package servlet;
 import core.model.Account;
 import core.service.AccountService;
 import exceptions.account.AccountNotFoundException;
-import exceptions.account.InvalidPasswordException;
+import exceptions.account.InvalidAccountPasswordException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -37,7 +37,7 @@ public class LoginServlet extends HttpServlet {
             } else {
                 throw new AccountNotFoundException();
             }
-        } catch (InvalidPasswordException | AccountNotFoundException e) {
+        } catch (InvalidAccountPasswordException | AccountNotFoundException e) {
             req.setAttribute("errorMessage", e.getMessage());
             getServletContext().getRequestDispatcher("/pages/login.jsp").forward(req, resp);
         }
