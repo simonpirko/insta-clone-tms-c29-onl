@@ -3,9 +3,7 @@ package storage.account;
 import connection.PostgresConnection;
 import core.model.Account;
 import core.repository.AccountRepository;
-import exceptions.account.GetAccountByIdException;
-import exceptions.account.GetAllAccountsException;
-import exceptions.account.SaveAccountException;
+import exceptions.account.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -55,7 +53,6 @@ public class InDBAccountStorage implements AccountRepository {
                 account.setId(id);
                 return Optional.of(account);
             }
-            preparedStatement.execute();
         } catch (SQLException e) {
             throw new GetAccountByIdException(e);
         }
@@ -69,7 +66,6 @@ public class InDBAccountStorage implements AccountRepository {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM accounts WHERE username = ?");
             preparedStatement.setString(1, username);
             ResultSet resultSet = preparedStatement.executeQuery();
-
             if (resultSet.next()) {
                 Account account = new Account();
                 account.setUsername(username);
@@ -79,7 +75,7 @@ public class InDBAccountStorage implements AccountRepository {
                 return Optional.of(account);
             }
         } catch (SQLException e) {
-            throw new GetAccountByIdException(e); //TODO: new exception
+            throw new GetAccountByUsernameException(e);
         }
         return Optional.empty();
     }
@@ -90,7 +86,6 @@ public class InDBAccountStorage implements AccountRepository {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM accounts WHERE email = ?");
             preparedStatement.setString(1, email);
             ResultSet resultSet = preparedStatement.executeQuery();
-
             if (resultSet.next()) {
                 Account account = new Account();
                 account.setUsername(resultSet.getString("username"));
@@ -100,7 +95,7 @@ public class InDBAccountStorage implements AccountRepository {
                 return Optional.of(account);
             }
         } catch (SQLException e) {
-            throw new GetAccountByIdException(e); //TODO: new exception
+            throw new GetAccountByEmailException(e);
         }
         return Optional.empty();
     }
@@ -110,7 +105,6 @@ public class InDBAccountStorage implements AccountRepository {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM accounts");
             ResultSet resultSet = preparedStatement.executeQuery();
             List<Account> accounts = new ArrayList<>();
-
             while (resultSet.next()) {
                 Account account = new Account();
                 account.setUsername(resultSet.getString("username"));
@@ -119,8 +113,6 @@ public class InDBAccountStorage implements AccountRepository {
                 account.setId(resultSet.getInt("id"));
                 accounts.add(account);
             }
-
-            preparedStatement.execute();
             return accounts;
         } catch (SQLException e) {
             throw new GetAllAccountsException(e);
