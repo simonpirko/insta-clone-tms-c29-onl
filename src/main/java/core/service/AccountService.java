@@ -1,15 +1,11 @@
 package core.service;
 
-import connection.PostgresConnection;
 import core.model.Account;
 import core.repository.AccountRepository;
-import exceptions.DatabaseConnectionException;
+import exceptions.account.InvalidPasswordException;
+import org.mindrot.jbcrypt.BCrypt;
 import storage.account.InDBAccountStorage;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Optional;
 
 public class AccountService {
@@ -26,28 +22,27 @@ public class AccountService {
 
         return INSTANCE;
     }
-    
+
     public void save(Account account) {
         storage.save(account);
     }
 
-    public Optional<Account> login(String identifier, String password) {
-        try (Connection connection = PostgresConnection.getConnection()) {
-            PreparedStatement preparedStatement = connection.
-                    prepareStatement("SELECT * FROM accounts WHERE (username = ? OR email = ?) AND password = ?");
-            preparedStatement.setString(1, identifier);
-            preparedStatement.setString(2, identifier);
-            preparedStatement.setString(3, password);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                Account account = new Account();
-                account.setId(resultSet.getInt("id"));
-                account.setUsername(resultSet.getString("username"));
-                account.setPassword(resultSet.getString("password"));
-                return Optional.of(account);
+    public Optional<Account> login(String usernameOrEmail, String password) throws InvalidPasswordException {
+        Optional<Account> accountByUsername = storage.getByUsername(usernameOrEmail);
+        if (accountByUsername.isPresent()) {
+            if (BCrypt.checkpw(password, accountByUsername.get().getPassword())) {
+                return accountByUsername;
+            } else {
+                throw new InvalidPasswordException();
             }
-        } catch (SQLException e) {
-            throw new DatabaseConnectionException(e);
+        }
+        Optional<Account> accountByEmail = storage.getByEmail(usernameOrEmail);
+        if (accountByEmail.isPresent()) {
+            if (BCrypt.checkpw(password, accountByEmail.get().getPassword())) {
+                return accountByEmail;
+            } else {
+                throw new InvalidPasswordException();
+            }
         }
         return Optional.empty();
     }

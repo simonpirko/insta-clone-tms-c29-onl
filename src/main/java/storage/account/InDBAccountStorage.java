@@ -63,6 +63,48 @@ public class InDBAccountStorage implements AccountRepository {
         return Optional.empty();
     }
 
+    @Override
+    public Optional<Account> getByUsername(String username) {
+        try (Connection connection = PostgresConnection.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM accounts WHERE username = ?");
+            preparedStatement.setString(1, username);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                Account account = new Account();
+                account.setUsername(username);
+                account.setPassword(resultSet.getString("password"));
+                account.setEmail(resultSet.getString("email"));
+                account.setId(resultSet.getInt("id"));
+                return Optional.of(account);
+            }
+        } catch (SQLException e) {
+            throw new GetAccountByIdException(e); //TODO: new exception
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<Account> getByEmail(String email) {
+        try (Connection connection = PostgresConnection.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM accounts WHERE email = ?");
+            preparedStatement.setString(1, email);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                Account account = new Account();
+                account.setUsername(resultSet.getString("username"));
+                account.setPassword(resultSet.getString("password"));
+                account.setEmail(email);
+                account.setId(resultSet.getInt("id"));
+                return Optional.of(account);
+            }
+        } catch (SQLException e) {
+            throw new GetAccountByIdException(e); //TODO: new exception
+        }
+        return Optional.empty();
+    }
+
     public List<Account> getAll() {
         try (Connection connection = PostgresConnection.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM accounts");
