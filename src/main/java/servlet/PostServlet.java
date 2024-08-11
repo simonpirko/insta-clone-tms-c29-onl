@@ -2,7 +2,7 @@ package servlet;
 
 import core.model.Post;
 import core.service.PostService;
-import core.utils.FileUploadUtil;
+import core.utils.FileUpload;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -28,31 +28,25 @@ public class PostServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String pattern = "dd.MM.yyyy HH:mm:ss";
         SimpleDateFormat sdf = new SimpleDateFormat(pattern);
         String formattedDate = sdf.format(new Date());
 
-        String description = request.getParameter("description");
-        Part filePart = request.getPart("file");
+        Part filePart = req.getPart("file");
+        String uploadDir = getServletContext().getRealPath("/uploads");
 
-        String uploadDir = getServletContext().getRealPath("") + File.separator + "uploads";
-        File uploadDirFile = new File(uploadDir);
+        final String filePath;
 
-        if (!uploadDirFile.exists()) {
-            uploadDirFile.mkdirs();
-        }
+        String description = req.getParameter("description");
 
-        String filePath = FileUploadUtil.saveFile(uploadDir, filePart);
+        filePath = FileUpload.saveFile(uploadDir, filePart);
         Post post = new Post(UUID.randomUUID().toString(), description, filePath, formattedDate);
         PostService.addPost(post);
 
-
         List<Post> posts = PostService.getAllPosts();
+        req.setAttribute("posts", posts);
 
-        request.setAttribute("posts", posts);
-
-        getServletContext().getRequestDispatcher("/pages/viewPosts.jsp").forward(request, response);
+        getServletContext().getRequestDispatcher("/pages/viewPosts.jsp").forward(req, resp);
     }
 }

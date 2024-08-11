@@ -3,6 +3,8 @@ package core.model;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.servlet.http.Part;
+
 @Data
 @NoArgsConstructor
 public class Post {
