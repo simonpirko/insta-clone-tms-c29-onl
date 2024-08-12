@@ -3,7 +3,6 @@ package core.utils;
 import javax.servlet.http.Part;
 import java.io.File;
 import java.io.IOException;
-import java.util.UUID;
 
 public class FileUpload {
 
@@ -12,5 +11,6 @@ public class FileUpload {
         String filePath = uploadDir + File.separator + fileName;
         part.write(filePath);
         return filePath;
+
     }
 }

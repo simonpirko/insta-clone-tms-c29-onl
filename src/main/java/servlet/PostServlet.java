@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
-import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -36,17 +35,20 @@ public class PostServlet extends HttpServlet {
         Part filePart = req.getPart("file");
         String uploadDir = getServletContext().getRealPath("/uploads");
 
+
         final String filePath;
 
         String description = req.getParameter("description");
 
         filePath = FileUpload.saveFile(uploadDir, filePart);
         Post post = new Post(UUID.randomUUID().toString(), description, filePath, formattedDate);
+
         PostService.addPost(post);
 
         List<Post> posts = PostService.getAllPosts();
         req.setAttribute("posts", posts);
 
         getServletContext().getRequestDispatcher("/pages/viewPosts.jsp").forward(req, resp);
+
     }
 }

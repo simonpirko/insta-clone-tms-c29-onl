@@ -23,6 +23,7 @@
 
             </div>
             <div class="col-4 mt-5 ">
+
                 <form action="createPost" method="post" enctype="multipart/form-data">
                     <div class="mb-3">
                         <label for="file">Загрудить файл:</label>
