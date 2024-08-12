@@ -28,7 +28,7 @@
                         <h5 class="card-title">Пост</h5>
                         <p>${post.description}</p>
                         <img src="${post.filePath}" class="card-img-top" alt="Картинка поста">
-                        <p>${post.atributs}</p>
+                        <p>${post.createdAt}</p>
                     </div>
                     <div >
 

@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -28,20 +27,14 @@ public class PostServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String pattern = "dd.MM.yyyy HH:mm:ss";
-        SimpleDateFormat sdf = new SimpleDateFormat(pattern);
-        String formattedDate = sdf.format(new Date());
+
 
         Part filePart = req.getPart("file");
         String uploadDir = getServletContext().getRealPath("/uploads");
-
-
-        final String filePath;
-
         String description = req.getParameter("description");
+        String filePath = FileUpload.saveFile(uploadDir, filePart);
 
-        filePath = FileUpload.saveFile(uploadDir, filePart);
-        Post post = new Post(UUID.randomUUID().toString(), description, filePath, formattedDate);
+        Post post = new Post(UUID.randomUUID().toString(), description, filePath, new Date());
 
         PostService.addPost(post);
 
@@ -49,6 +42,5 @@ public class PostServlet extends HttpServlet {
         req.setAttribute("posts", posts);
 
         getServletContext().getRequestDispatcher("/pages/viewPosts.jsp").forward(req, resp);
-
     }
 }
