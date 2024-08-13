@@ -31,7 +31,7 @@ public class LoginServlet extends HttpServlet {
         if (login.isPresent()) {
             Account account = login.get();
             req.getSession().setAttribute("account", account);
-            resp.sendRedirect("/");
+            resp.sendRedirect("/home");
         } else {
             req.setAttribute("errorMessage", "Пользователь не найден или неверный пароль");
             getServletContext().getRequestDispatcher("/pages/login.jsp").forward(req, resp);
