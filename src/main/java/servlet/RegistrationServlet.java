@@ -2,6 +2,7 @@ package servlet;
 
 import core.model.Account;
 import core.service.AccountService;
+import org.mindrot.jbcrypt.BCrypt;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,8 +25,9 @@ public class RegistrationServlet extends HttpServlet {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
         String email = req.getParameter("email");
+        String hashPassword = BCrypt.hashpw(password, BCrypt.gensalt());
         try {
-            accountService.save(new Account(username, password, email));
+            accountService.save(new Account(username, hashPassword, email));
 
             resp.sendRedirect("/login?username=" + username);
         } catch (Exception e) {
