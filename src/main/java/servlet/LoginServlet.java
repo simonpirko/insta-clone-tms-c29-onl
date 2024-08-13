@@ -33,7 +33,7 @@ public class LoginServlet extends HttpServlet {
             if (login.isPresent()) {
                 Account account = login.get();
                 req.getSession().setAttribute("account", account);
-                resp.sendRedirect("/");
+                resp.sendRedirect("/home");
             } else {
                 throw new AccountNotFoundException();
             }
