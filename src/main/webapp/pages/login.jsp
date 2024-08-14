@@ -14,7 +14,44 @@
 <body>
 <jsp:include page="_bootstrap.jsp"/>
 <jsp:include page="_header.jsp"/>
-<div class="container text-center">
+
+<div class="container">
+    <div class="row min-vh-100 align-items-center">
+        <div class="col-2">
+        </div>
+        <div class="col-8">
+            <div class="row justify-content-center mb-5">
+                <img class="col-2"
+                     src="https://cdn.pixabay.com/photo/2016/08/01/21/00/icon-1562136_1280.png"
+                     alt="">
+            </div>
+            <div class="row justify-content-center">
+                <form class="col-6 align-self-center" action="/calc" method="post">
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label"><b>Username or Email -></b></label>
+                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                               placeholder="enter username or email here" name="num1">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label"><b>Password -></b></label>
+                        <input type="password" class="form-control" id="exampleInputPassword1"
+                               placeholder="enter password here" name="num2">
+                    </div>
+                    <button type="submit" class="btn btn-success w-100 mb-2 mt-3">Login</button>
+                    <button style="text-align: center" type="button" class="btn btn-outline-success btn-sm w-100">
+                        Registration
+                    </button>
+                </form>
+            </div>
+            <div style="text-align: center">
+                <label for="exampleInputPassword1" class="form-label"><h1><b>${result}</b></h1></label>
+            </div>
+        </div>
+        <div class="col-2"></div>
+    </div>
+</div>
+
+<%--<div class="container text-center">
     <form action="/login" method="post">
         <div class="row align-items-center justify-content-center">
             <div class="col-3">
@@ -37,6 +74,6 @@
             <p class="text-danger">${errorMessage}</p>
         </jstl:if>
     </form>
-</div>
+</div>--%>
 </body>
 </html>
