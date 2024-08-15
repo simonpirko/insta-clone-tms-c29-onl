@@ -22,10 +22,7 @@
                 </li>
                 <core:if test="${sessionScope.account == null}">
                     <li class="nav-item">
-                        <a class="nav-link" href="/registration">Registration</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/login">Login</a>
+                        <a class="nav-link" href="/login">Authorization</a>
                     </li>
                 </core:if>
                 <core:if test="${sessionScope.account != null}">
