@@ -1,8 +1,6 @@
 package servlet;
 
 import core.model.Post;
-import core.service.PostService;
-import core.utils.FileUpload;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -12,9 +10,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import java.io.IOException;
-import java.util.Date;
-import java.util.List;
+import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.UUID;
+
+import static connection.PostgresConnection.getConnection;
 
 @WebServlet("/createPost")
 @MultipartConfig
@@ -27,20 +30,30 @@ public class PostServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+Post post = new Post();
 
+        Part filePath = req.getPart("file");
 
-        Part filePart = req.getPart("file");
-        String uploadDir = getServletContext().getRealPath("/uploads");
-        String description = req.getParameter("description");
-        String filePath = FileUpload.saveFile(uploadDir, filePart);
+        InputStream inputStream = filePath.getInputStream();
 
-        Post post = new Post(UUID.randomUUID().toString(), description, filePath, new Date());
+        ResultSet resultSet =
 
-        PostService.addPost(post);
+        req.setAttribute(post.setId());
 
-        List<Post> posts = PostService.getAllPosts();
-        req.setAttribute("posts", posts);
+        String sql = "INSERT INTO posts (id, description, filepath, created_at) VALUES (?, ?, ?, ?)";
 
-        getServletContext().getRequestDispatcher("/pages/viewPosts.jsp").forward(req, resp);
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setObject(1, UUID.fromString(post.getId()));
+            stmt.setString(2, post.getDescription());
+            stmt.setBytes(3, inputStream.readAllBytes());
+            stmt.setTimestamp(4, new java.sql.Timestamp(post.getCreatedAt().getTime()));
+
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
+
 }

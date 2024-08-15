@@ -1,7 +1,6 @@
 package servlet;
 
 import core.model.Post;
-import core.service.PostService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,8 +16,6 @@ public class ViewPostsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        List<Post> posts = PostService.getAllPosts();
-        req.setAttribute("posts", posts);
 
         getServletContext().getRequestDispatcher("/pages/viewPosts.jsp").forward(req, resp);
     }

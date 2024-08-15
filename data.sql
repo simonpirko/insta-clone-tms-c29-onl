@@ -1,5 +1,3 @@
-
-
 create table accounts
 (
     id       serial
