@@ -22,10 +22,12 @@ public class ApplicationListener implements ServletContextListener {
             throw new RuntimeException(e);
         }
 
-        //применяются миграции
-        FluentConfiguration configure = Flyway.configure();
+        /**
+         * Код ниже будет автоматически применять миграцию при запуске программы, если отключить плагин.
+         * */
+        /*FluentConfiguration configure = Flyway.configure();
         configure.schemas("public");
-        Flyway flyway = configure.dataSource("jdbc:postgresql://localhost:5432/postgres", "postgres", "bigbase").load();
-        flyway.migrate();
+        Flyway flyway = configure.dataSource("jdbc:postgresql://localhost:5432/postgres", "postgres", "root").load();
+        flyway.migrate();*/
     }
 }

@@ -8,7 +8,7 @@ import java.sql.DriverManager;
 public class PostgresConnection {
     private static final String URL = "jdbc:postgresql://localhost:5432/postgres";
     private static final String USER = "postgres";
-    private static final String PASSWORD = "bigbase";
+    private static final String PASSWORD = "root";
 
     @SneakyThrows
     public static Connection getConnection() {

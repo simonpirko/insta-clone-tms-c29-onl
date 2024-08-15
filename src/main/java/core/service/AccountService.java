@@ -1,16 +1,16 @@
 package core.service;
 
 import core.model.Account;
-import core.repository.AccountRepository;
+import core.DAO.AccountDAO;
 import exceptions.account.InvalidAccountPasswordException;
 import org.mindrot.jbcrypt.BCrypt;
-import storage.account.InDBAccountStorage;
+import storage.account.InDBAccountDAO;
 
 import java.util.Optional;
 
 public class AccountService {
     private static AccountService INSTANCE;
-    private final AccountRepository storage = InDBAccountStorage.getInstance();
+    private final AccountDAO storage = InDBAccountDAO.getInstance();
 
     private AccountService() {
     }

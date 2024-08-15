@@ -2,7 +2,7 @@ package storage.account;
 
 import connection.PostgresConnection;
 import core.model.Account;
-import core.repository.AccountRepository;
+import core.DAO.AccountDAO;
 import exceptions.account.*;
 
 import java.sql.Connection;
@@ -13,15 +13,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class InDBAccountStorage implements AccountRepository {
-    private static InDBAccountStorage INSTANCE;
+public class InDBAccountDAO implements AccountDAO {
+    private static InDBAccountDAO INSTANCE;
 
-    private InDBAccountStorage() {
+    private InDBAccountDAO() {
     }
 
-    public static InDBAccountStorage getInstance() {
+    public static InDBAccountDAO getInstance() {
         if (INSTANCE == null) {
-            INSTANCE = new InDBAccountStorage();
+            INSTANCE = new InDBAccountDAO();
         }
 
         return INSTANCE;
