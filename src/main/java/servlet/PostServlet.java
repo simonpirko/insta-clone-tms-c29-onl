@@ -1,6 +1,7 @@
 package servlet;
 
 import core.model.Post;
+import lombok.SneakyThrows;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -13,9 +14,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.UUID;
+import java.sql.Timestamp;
+import java.util.Date;
 
 import static connection.PostgresConnection.getConnection;
 
@@ -28,32 +28,27 @@ public class PostServlet extends HttpServlet {
         getServletContext().getRequestDispatcher("/pages/createPost.jsp").forward(req, resp);
     }
 
+    @SneakyThrows
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-Post post = new Post();
+
+        Post post = new Post();
+
+        String description = req.getParameter("description");
+        post.setDescription(description);
 
         Part filePath = req.getPart("file");
-
         InputStream inputStream = filePath.getInputStream();
 
-        ResultSet resultSet =
+        Connection connection = getConnection();
 
-        req.setAttribute(post.setId());
+        String sql = "INSERT INTO posts (id, description, filepath, created_at) VALUES (default, ?, ?, ?)";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1, post.getDescription());
+        preparedStatement.setBytes(2, inputStream.readAllBytes());
+        preparedStatement.setTimestamp(3, new Timestamp(new Date().getTime()));
+        preparedStatement.executeUpdate();
 
-        String sql = "INSERT INTO posts (id, description, filepath, created_at) VALUES (?, ?, ?, ?)";
-
-        try (Connection conn = getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-            stmt.setObject(1, UUID.fromString(post.getId()));
-            stmt.setString(2, post.getDescription());
-            stmt.setBytes(3, inputStream.readAllBytes());
-            stmt.setTimestamp(4, new java.sql.Timestamp(post.getCreatedAt().getTime()));
-
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        resp.sendRedirect("/pages/viewPosts");
     }
-
 }

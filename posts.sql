@@ -1,6 +1,7 @@
-CREATE TABLE posts (
-                       id UUID PRIMARY KEY,
-                       description TEXT NOT NULL,
-                       filepath BIT NOT NULL,
-                       created_at TIMESTAMP NOT NULL
+create table posts
+(
+    id          serial,
+    description varchar   not null,
+    filepath    bytea     not null,
+    created_at  timestamp not null
 );
