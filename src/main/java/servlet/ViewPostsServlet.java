@@ -33,7 +33,11 @@ public class ViewPostsServlet extends HttpServlet {
         while (resultSet.next()) {
             Post post = new Post();
             post.setDescription(resultSet.getString("description"));
-            post.setFilePath(resultSet.getBytes("filepath"));
+
+            byte[] fileBytes = resultSet.getBytes("filepath");
+            String encodedString = Base64.getEncoder().encodeToString(fileBytes);
+            post.setFilePath(encodedString.getBytes());
+
             post.setCreatedAt(resultSet.getTimestamp("created_at"));
             posts.add(post);
         }
