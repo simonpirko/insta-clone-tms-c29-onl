@@ -13,30 +13,40 @@
 <head>
     <title>Лента постов</title>
 </head>
+
 <body>
 <jsp:include page="_header.jsp"/>
 <jsp:include page="_bootstrap.jsp"/>
 
+
 <div class="container text-center">
-    <form>
-        <div class="row align-items-center justify-content-center">
-
-            <div class="card" style="width: 18rem;">
-
-                <c:forEach var="post" items="${posts}">
-                    <div class="card-body">
-                        <h5 class="card-title">Пост</h5>
-                        <p>${post.description}</p>
-                        <img width="1080" src="data:image/png;base64,${post.filePath}" class="card-img-top" alt="Картинка поста">
-                        <p>${post.createdAt}</p>
-                    </div>
-                </c:forEach>
-
-            </div>
-
+    <div class="row">
+        <div class="col">
+            Column
         </div>
-    </form>
+        <div class="col-6">
+
+
+            <c:forEach var="post" items="${posts}">
+                <div class="card-body">
+                    <h5 class="card-title">Пост</h5>
+
+                    <img width="1080" src="data:image/png;base64,${post.filePath}" class="card-img-top"
+                         alt="Картинка поста">
+
+                    <p>${post.description}</p>
+
+                    <p>${post.createdAt}</p>
+                </div>
+
+            </c:forEach>
+        </div>
+        <div class="col">
+            Column
+        </div>
+    </div>
 </div>
+
 
 </body>
 </html>
