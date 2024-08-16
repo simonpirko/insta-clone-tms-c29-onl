@@ -10,8 +10,7 @@ import java.util.Date;
 public class Post {
     private String id;
     private String description;
-    private byte[] filePath;
+    private String filePath;
     private Date createdAt;
-
 
 }

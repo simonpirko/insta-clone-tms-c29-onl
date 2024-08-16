@@ -27,7 +27,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Пост</h5>
                         <p>${post.description}</p>
-                        <img width="1080" height="1080" src="data:image/png;base64,${post.filePath}" class="card-img-top" alt="Картинка поста">
+                        <img width="1080" src="data:image/png;base64,${post.filePath}" class="card-img-top" alt="Картинка поста">
                         <p>${post.createdAt}</p>
                     </div>
                 </c:forEach>

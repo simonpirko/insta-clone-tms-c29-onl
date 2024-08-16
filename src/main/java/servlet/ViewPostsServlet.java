@@ -35,8 +35,8 @@ public class ViewPostsServlet extends HttpServlet {
             post.setDescription(resultSet.getString("description"));
 
             byte[] fileBytes = resultSet.getBytes("filepath");
-            String encodedString = Base64.getEncoder().encodeToString(fileBytes);
-            post.setFilePath(encodedString.getBytes());
+            String encoded = Base64.getEncoder().encodeToString(fileBytes);
+            post.setFilePath(encoded);
 
             post.setCreatedAt(resultSet.getTimestamp("created_at"));
             posts.add(post);
