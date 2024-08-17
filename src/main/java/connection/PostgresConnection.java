@@ -12,7 +12,7 @@ public class PostgresConnection {
     @Getter
     private static final String USER = "postgres";
     @Getter
-    private static final String PASSWORD = "bigbase";
+    private static final String PASSWORD = "root";
 
     @SneakyThrows
     public static Connection getConnection() {
