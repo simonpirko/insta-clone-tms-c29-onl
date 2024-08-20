@@ -2,6 +2,7 @@ package servlet;
 
 import core.model.Account;
 import core.service.AccountService;
+import org.mindrot.jbcrypt.BCrypt;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,10 +24,11 @@ public class RegistrationServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
+        String hashPassword = BCrypt.hashpw(password, BCrypt.gensalt());
         String email = req.getParameter("email");
-        try {
-            accountService.save(new Account(username, password, email));
 
+        try {
+            accountService.save(new Account(username, hashPassword, email));
             resp.sendRedirect("/login?username=" + username);
         } catch (Exception e) {
             req.setAttribute("errorMessage", "Ошибка при создании аккаунта");

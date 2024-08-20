@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebFilter(servletNames = {"RegistrationServlet", "LoginServlet"})
-public class SecurityFilter extends HttpFilter {
+public class SecurityFilterNotAutorized extends HttpFilter {
     @Override
     protected void doFilter(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
         if (req.getSession().getAttribute("account") == null) {

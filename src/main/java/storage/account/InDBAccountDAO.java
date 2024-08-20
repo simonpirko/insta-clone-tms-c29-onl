@@ -2,10 +2,8 @@ package storage.account;
 
 import connection.PostgresConnection;
 import core.model.Account;
-import core.repository.AccountRepository;
-import exceptions.account.GetAccountByIdException;
-import exceptions.account.GetAllAccountsException;
-import exceptions.account.SaveAccountException;
+import core.DAO.AccountDAO;
+import exceptions.account.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,15 +13,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class InDBAccountStorage implements AccountRepository {
-    private static InDBAccountStorage INSTANCE;
+public class InDBAccountDAO implements AccountDAO {
+    private static InDBAccountDAO INSTANCE;
 
-    private InDBAccountStorage() {
+    private InDBAccountDAO() {
     }
 
-    public static InDBAccountStorage getInstance() {
+    public static InDBAccountDAO getInstance() {
         if (INSTANCE == null) {
-            INSTANCE = new InDBAccountStorage();
+            INSTANCE = new InDBAccountDAO();
         }
 
         return INSTANCE;
@@ -55,11 +53,50 @@ public class InDBAccountStorage implements AccountRepository {
                 account.setId(id);
                 return Optional.of(account);
             }
-            preparedStatement.execute();
         } catch (SQLException e) {
             throw new GetAccountByIdException(e);
         }
 
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<Account> getByUsername(String username) {
+        try (Connection connection = PostgresConnection.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM accounts WHERE username = ?");
+            preparedStatement.setString(1, username);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                Account account = new Account();
+                account.setUsername(username);
+                account.setPassword(resultSet.getString("password"));
+                account.setEmail(resultSet.getString("email"));
+                account.setId(resultSet.getInt("id"));
+                return Optional.of(account);
+            }
+        } catch (SQLException e) {
+            throw new GetAccountByUsernameException(e);
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<Account> getByEmail(String email) {
+        try (Connection connection = PostgresConnection.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM accounts WHERE email = ?");
+            preparedStatement.setString(1, email);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                Account account = new Account();
+                account.setUsername(resultSet.getString("username"));
+                account.setPassword(resultSet.getString("password"));
+                account.setEmail(email);
+                account.setId(resultSet.getInt("id"));
+                return Optional.of(account);
+            }
+        } catch (SQLException e) {
+            throw new GetAccountByEmailException(e);
+        }
         return Optional.empty();
     }
 
@@ -68,7 +105,6 @@ public class InDBAccountStorage implements AccountRepository {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM accounts");
             ResultSet resultSet = preparedStatement.executeQuery();
             List<Account> accounts = new ArrayList<>();
-
             while (resultSet.next()) {
                 Account account = new Account();
                 account.setUsername(resultSet.getString("username"));
@@ -77,8 +113,6 @@ public class InDBAccountStorage implements AccountRepository {
                 account.setId(resultSet.getInt("id"));
                 accounts.add(account);
             }
-
-            preparedStatement.execute();
             return accounts;
         } catch (SQLException e) {
             throw new GetAllAccountsException(e);
