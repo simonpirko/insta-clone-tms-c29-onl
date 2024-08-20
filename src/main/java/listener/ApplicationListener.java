@@ -1,5 +1,6 @@
 package listener;
 
+import connection.PostgresConnection;
 import org.flywaydb.core.Flyway;
 import org.flywaydb.core.api.configuration.FluentConfiguration;
 
@@ -22,12 +23,10 @@ public class ApplicationListener implements ServletContextListener {
             throw new RuntimeException(e);
         }
 
-        /**
-         * Код ниже будет автоматически применять миграцию при запуске программы, если отключить плагин.
-         * */
-        /*FluentConfiguration configure = Flyway.configure();
+        //автоматическая миграция при запуске приложения
+        FluentConfiguration configure = Flyway.configure();
         configure.schemas("public");
-        Flyway flyway = configure.dataSource("jdbc:postgresql://localhost:5432/postgres", "postgres", "root").load();
-        flyway.migrate();*/
+        Flyway flyway = configure.dataSource(PostgresConnection.getURL(), PostgresConnection.getUSER(), PostgresConnection.getPASSWORD()).load();
+        flyway.migrate();
     }
 }
