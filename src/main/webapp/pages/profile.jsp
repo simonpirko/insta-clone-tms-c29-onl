@@ -24,10 +24,19 @@
             <div class="col-3">
             </div>
             <div class="col-2">
-<%--                <img src="https://masterpiecer-images.s3.yandex.net/7c8387fca0d711eeb34896ac41f50fa8:upscaled"--%>
-<%--                     class="rounded-circle" alt="200" width="200">--%>
-    <img src="data:image/png;base64,${avatar}" class="rounded-circle" alt="200" width="200">
+                <%--                <img src="https://masterpiecer-images.s3.yandex.net/7c8387fca0d711eeb34896ac41f50fa8:upscaled"--%>
+                <%--                     class="rounded-circle" alt="200" width="200">--%>
 
+
+<%--                    <jstl:if test="${not empty avatar}">--%>
+<%--                        <img src="data:image/png;base64,${avatar}" class="rounded-circle" alt="200" width="200">--%>
+<%--                    </jstl:if>--%>
+<%--                    <jstl:if test="${empty avatar}">--%>
+<%--                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRG-JIecnvoCiKR6ACrxXYQhpVFxIDpHtm-qQ&s"--%>
+<%--                             class="rounded-circle" alt="200" width="200">--%>
+<%--                    </jstl:if>--%>
+
+                <img src="data:image/png;base64,${avatar}" class="rounded-circle" alt="200" width="200">
 
             </div>
             <div class="col-7">
@@ -48,7 +57,7 @@
                     </div>
 <%--                </div>--%>
                 <div class="row align-items-center">
-                    <div class="col-2 fs-7" style="height: 50px;">
+                    <div class="col-3 fs-7" style="height: 50px;">
                         3 публикаций
                     </div>
                     <div class="col-3 fs-7" style="height: 50px;">
@@ -58,15 +67,29 @@
                         795 подписок
                     </div>
                 </div>
-                <div class="row align-items-end">
-                    <div class="col-4 fs-9" style="height: 50px;">
-                        ${name}
+                    <div class="row align-items-end">
+                        <div class="col-6 fs-9" style="height: 50px;">
+                            ${name}
+                        </div>
+                        <%--                    <div class="col-2 fs-9" style="height: 50px;">--%>
+                        <%--                    </div>--%>
                     </div>
-                    <div class="col-2 fs-9" style="height: 50px;">
+                    <div class="row align-items-end">
+                        <div class="col-6 fs-9" style="height: 50px;">
+                            ${about}
+                        </div>
+                        <%--                    <div class="col-2 fs-9" style="height: 50px;">--%>
+                        <%--                    </div>--%>
+                    </div>
+                    <div class="row align-items-end">
+                        <div class="col-6 fs-9" style="height: 50px;">
+                            ${website}
+                        </div>
+                        <%--                    <div class="col-2 fs-9" style="height: 50px;">--%>
+                        <%--                    </div>--%>
                     </div>
                 </div>
             </div>
-        </div>
     </div>
 </div>
 </body>

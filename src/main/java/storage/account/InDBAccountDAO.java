@@ -5,8 +5,6 @@ import core.model.Account;
 import core.DAO.AccountDAO;
 import exceptions.account.*;
 
-import java.math.BigInteger;
-import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -40,7 +38,7 @@ public class InDBAccountDAO implements AccountDAO {
         }
     }
 
-     public Optional<Account> getById(int id) {
+    public Optional<Account> getById(int id) {
         try (Connection connection = PostgresConnection.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM accounts WHERE id = ?");
             preparedStatement.setInt(1, id);
@@ -92,8 +90,6 @@ public class InDBAccountDAO implements AccountDAO {
                 } catch (Exception e) {
 
                 }
-
-
 
                 return Optional.of(account);
             }
@@ -150,18 +146,32 @@ public class InDBAccountDAO implements AccountDAO {
         }
     }
 
+    public Account fillAccount(ResultSet resultSet) throws SQLException {
+        Account account = new Account();
+        account.setUsername(resultSet.getString("username"));
+        account.setPassword(resultSet.getString("password"));
+        account.setEmail(resultSet.getString("email"));
+        account.setId(resultSet.getInt("id"));
+        account.setName(resultSet.getString("name"));
+        account.setWebsite(resultSet.getString("website"));
+        account.setAbout(resultSet.getString("about"));
+        account.setGender(resultSet.getString("gender"));
+
+        byte[] bytes = resultSet.getBytes("avatar");
+        String encodedString = Base64.getEncoder().encodeToString(bytes);
+        account.setAvatar(encodedString);
+
+        return account;
+    }
+
     public void saveProfile(Account account) {
         try (Connection connection = PostgresConnection.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE accounts SET name=?, website=?, about=?, avatar=?, gender=? WHERE id = ?");
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE accounts SET name=?, website=?, about=?, gender=? WHERE id = ?");
             preparedStatement.setString(1, account.getName());
             preparedStatement.setString(2, account.getWebsite());
             preparedStatement.setString(3, account.getAbout());
-
-            String stringAvatar = account.getAvatar();
-            byte[] bytes = Base64.getDecoder().decode(stringAvatar);
-            preparedStatement.setBytes(4, bytes);
-            preparedStatement.setString(5, account.getGender());
-            preparedStatement.setInt(6, account.getId());
+            preparedStatement.setString(4, account.getGender());
+            preparedStatement.setInt(5, account.getId());
 
             preparedStatement.execute();
         } catch (SQLException e) {
@@ -173,9 +183,9 @@ public class InDBAccountDAO implements AccountDAO {
         try (Connection connection = PostgresConnection.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE accounts SET avatar=? WHERE id = ?");
             preparedStatement.setBytes(1, bytes);
-            preparedStatement.setInt(6, id);
+            preparedStatement.setInt(2, id);
 
-            preparedStatement.execute();
+            preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
             throw new SaveAccountException(e);

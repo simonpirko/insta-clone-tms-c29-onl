@@ -115,7 +115,9 @@
             <li class="nav-item">
                 <a class="nav-link" href="/profile">
                     <!-- Иконка профиля загружается из базы данных -->
-                    <img class="profile-icon" src="${profileImageUrl}" alt="Profile Icon"/>
+<%--                    <img class="profile-icon" src="${profileImageUrl}" alt="Profile Icon"/>--%>
+                    <img class="profile-icon rounded-circle" src="data:image/png;base64,${avatar}" alt="Profile Icon"/>
+<%--                    <img src="data:image/png;base64,${avatar}" class="rounded-circle" alt="100" width="100">--%>
                     Profile
                 </a>
             </li>

@@ -4,6 +4,7 @@ import core.model.Account;
 import core.service.AccountService;
 import exceptions.account.AccountNotFoundException;
 import exceptions.account.InvalidAccountPasswordException;
+import storage.account.InDBAccountDAO;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,6 +17,7 @@ import java.util.Optional;
 @WebServlet(value = "/login", name = "LoginServlet")
 public class LoginServlet extends HttpServlet {
     private final AccountService service = AccountService.getInstance();
+    private final InDBAccountDAO inDBAccountDAO = InDBAccountDAO.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -33,6 +35,9 @@ public class LoginServlet extends HttpServlet {
             if (login.isPresent()) {
                 Account account = login.get();
                 req.getSession().setAttribute("account", account);
+
+                ProfileEditServlet.getCurrentAccount(req, inDBAccountDAO);
+
                 resp.sendRedirect("/home");
             } else {
                 throw new AccountNotFoundException();
