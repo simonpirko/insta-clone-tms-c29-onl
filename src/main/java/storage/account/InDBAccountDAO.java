@@ -9,9 +9,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+
 
 public class InDBAccountDAO implements AccountDAO {
     private static InDBAccountDAO INSTANCE;
@@ -51,6 +50,15 @@ public class InDBAccountDAO implements AccountDAO {
                 account.setPassword(resultSet.getString("password"));
                 account.setEmail(resultSet.getString("email"));
                 account.setId(id);
+                account.setName(resultSet.getString("name"));
+                account.setWebsite(resultSet.getString("website"));
+                account.setAbout(resultSet.getString("about"));
+                account.setGender(resultSet.getString("gender"));
+
+                byte[] bytes = resultSet.getBytes("avatar");
+                account.setAvatar(Base64.getEncoder().encodeToString(bytes));
+
+
                 return Optional.of(account);
             }
         } catch (SQLException e) {
@@ -72,6 +80,17 @@ public class InDBAccountDAO implements AccountDAO {
                 account.setPassword(resultSet.getString("password"));
                 account.setEmail(resultSet.getString("email"));
                 account.setId(resultSet.getInt("id"));
+                account.setName(resultSet.getString("name"));
+                account.setWebsite(resultSet.getString("website"));
+                account.setAbout(resultSet.getString("about"));
+                account.setGender(resultSet.getString("gender"));
+                try {
+                    byte[] bytes = resultSet.getBytes("avatar");
+                    account.setAvatar(Base64.getEncoder().encodeToString(bytes));
+                } catch (Exception e) {
+
+                }
+
                 return Optional.of(account);
             }
         } catch (SQLException e) {
@@ -92,6 +111,14 @@ public class InDBAccountDAO implements AccountDAO {
                 account.setPassword(resultSet.getString("password"));
                 account.setEmail(email);
                 account.setId(resultSet.getInt("id"));
+                account.setName(resultSet.getString("name"));
+                account.setWebsite(resultSet.getString("website"));
+                account.setAbout(resultSet.getString("about"));
+                account.setGender(resultSet.getString("gender"));
+                byte[] bytes = resultSet.getBytes("avatar");
+                account.setAvatar(Base64.getEncoder().encodeToString(bytes));
+
+
                 return Optional.of(account);
             }
         } catch (SQLException e) {
@@ -116,6 +143,52 @@ public class InDBAccountDAO implements AccountDAO {
             return accounts;
         } catch (SQLException e) {
             throw new GetAllAccountsException(e);
+        }
+    }
+
+    public Account fillAccount(ResultSet resultSet) throws SQLException {
+        Account account = new Account();
+        account.setUsername(resultSet.getString("username"));
+        account.setPassword(resultSet.getString("password"));
+        account.setEmail(resultSet.getString("email"));
+        account.setId(resultSet.getInt("id"));
+        account.setName(resultSet.getString("name"));
+        account.setWebsite(resultSet.getString("website"));
+        account.setAbout(resultSet.getString("about"));
+        account.setGender(resultSet.getString("gender"));
+
+        byte[] bytes = resultSet.getBytes("avatar");
+        String encodedString = Base64.getEncoder().encodeToString(bytes);
+        account.setAvatar(encodedString);
+
+        return account;
+    }
+
+    public void saveProfile(Account account) {
+        try (Connection connection = PostgresConnection.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE accounts SET name=?, website=?, about=?, gender=? WHERE id = ?");
+            preparedStatement.setString(1, account.getName());
+            preparedStatement.setString(2, account.getWebsite());
+            preparedStatement.setString(3, account.getAbout());
+            preparedStatement.setString(4, account.getGender());
+            preparedStatement.setInt(5, account.getId());
+
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            throw new SaveAccountException(e);
+        }
+    }
+
+    public void saveAvatar(int id, byte[] bytes) {
+        try (Connection connection = PostgresConnection.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE accounts SET avatar=? WHERE id = ?");
+            preparedStatement.setBytes(1, bytes);
+            preparedStatement.setInt(2, id);
+
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new SaveAccountException(e);
         }
     }
 }

@@ -6,8 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="core" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="_bootstrap.jsp"/>
-
 <html>
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -109,13 +109,41 @@
                 <img class="icon" width="25" height="25" src="https://img.icons8.com/ios/50/add--v1.png" alt="add--v1"/> Make
             </a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">
-                <!-- Иконка профиля загружается из базы данных -->
-                <img class="profile-icon" src="${profileImageUrl}" alt="Profile Icon" />
-                Profile
-            </a>
-        </li>
+        <!-- begin добавила ссылку на страницу профиля   -->
+        <core:if test="${sessionScope.account != null}">
+        <form action="/profile" method="get">
+            <li class="nav-item">
+                <a class="nav-link" href="/profile">
+                    <!-- Иконка профиля загружается из базы данных -->
+<%--                    <img class="profile-icon" src="${profileImageUrl}" alt="Profile Icon"/>--%>
+                    <img class="profile-icon rounded-circle" src="data:image/png;base64,${avatar}" alt="Profile Icon"/>
+<%--                    <img src="data:image/png;base64,${avatar}" class="rounded-circle" alt="100" width="100">--%>
+                    Profile
+                </a>
+            </li>
+        </form>
+        </core:if>
+        <core:if test="${sessionScope.account == null}">
+
+            <li class="nav-item">
+                <a class="nav-link" href="">
+                    <!-- Иконка профиля загружается из базы данных -->
+                    <img class="profile-icon" src="${profileImageUrl}" alt="Profile Icon"/>
+                    Profile
+                </a>
+            </li>
+
+        </core:if>
+        <!-- end добавила ссылку на страницу профиля   -->
+
+<%--        <li class="nav-item">--%>
+<%--            <a class="nav-link" href="/pages/profile.jsp">--%>
+<%--                <!-- Иконка профиля загружается из базы данных -->--%>
+<%--                <img class="profile-icon" src="${profileImageUrl}" alt="Profile Icon"/>--%>
+<%--                Profile--%>
+<%--            </a>--%>
+<%--        </li>--%>
+
         <li class="nav-item">
             <a class="nav-link" href="#">
                 <svg class="icon" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">

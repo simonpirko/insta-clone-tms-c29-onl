@@ -46,5 +46,9 @@ public class AccountService {
         }
         return Optional.empty();
     }
+
+    public void saveProfile(Account account) { storage.saveProfile(account);}
+
+    public void saveAvatar(int id, byte[] bytes){storage.saveAvatar(id, bytes);}
 }
 

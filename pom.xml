@@ -69,6 +69,12 @@
                     <url>jdbc:postgresql://localhost:5432/postgres</url>
                     <user>postgres</user>
                     <password>root</password>
+                    <schemas>
+                        <schema>public</schema>
+                    </schemas>
+                    <locations>
+                        <location>classpath:db/migration</location>
+                    </locations>
                 </configuration>
                 <dependencies>
                     <dependency>
