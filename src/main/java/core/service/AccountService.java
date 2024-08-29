@@ -1,16 +1,16 @@
 package core.service;
 
 import core.model.Account;
-import core.DAO.AccountDAO;
+import core.DAO.accountDao.AccountDao;
 import exceptions.account.InvalidAccountPasswordException;
 import org.mindrot.jbcrypt.BCrypt;
-import storage.account.InDBAccountDAO;
+import core.DAO.accountDao.InDBAccountDao;
 
 import java.util.Optional;
 
 public class AccountService {
     private static AccountService INSTANCE;
-    private final AccountDAO storage = InDBAccountDAO.getInstance();
+    private final AccountDao<Integer> accountDAO = InDBAccountDao.getInstance();
 
     private AccountService() {
     }
@@ -23,12 +23,13 @@ public class AccountService {
         return INSTANCE;
     }
 
-    public void save(Account account) {
-        storage.save(account);
+    public Optional<Integer> save(Account account) {
+       return accountDAO.save(account);
     }
 
     public Optional<Account> login(String usernameOrEmail, String password) throws InvalidAccountPasswordException {
-        Optional<Account> accountByUsername = storage.getByUsername(usernameOrEmail);
+
+        Optional<Account> accountByUsername = accountDAO.getByUsername(usernameOrEmail);
         if (accountByUsername.isPresent()) {
             if (BCrypt.checkpw(password, accountByUsername.get().getPassword())) {
                 return accountByUsername;
@@ -36,7 +37,7 @@ public class AccountService {
                 throw new InvalidAccountPasswordException();
             }
         }
-        Optional<Account> accountByEmail = storage.getByEmail(usernameOrEmail);
+        Optional<Account> accountByEmail = accountDAO.getByEmail(usernameOrEmail);
         if (accountByEmail.isPresent()) {
             if (BCrypt.checkpw(password, accountByEmail.get().getPassword())) {
                 return accountByEmail;
@@ -45,6 +46,10 @@ public class AccountService {
             }
         }
         return Optional.empty();
+    }
+
+    public void update(Account account) {
+        accountDAO.update(account);
     }
 }
 

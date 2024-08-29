@@ -68,7 +68,7 @@
                     <cleanDisabled>false</cleanDisabled>
                     <url>jdbc:postgresql://localhost:5432/postgres</url>
                     <user>postgres</user>
-                    <password>root</password>
+                    <password>taras280898</password>
                 </configuration>
                 <dependencies>
                     <dependency>
