@@ -1,3 +1,4 @@
+<%@ page import="java.util.Properties" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%--
@@ -7,46 +8,46 @@
   Time: 18:21
   To change this template use File | Settings | File Templates.
 --%>
-<!DOCTYPE html>
+<%
+    Properties properties = (Properties) request.getAttribute("properties");
+    String text = properties.getProperty("createPost.text");
+    String description = properties.getProperty("createPost.description");
+    String button = properties.getProperty("createPost.button");
+%>
 <html>
 <head>
     <title>Create Post</title>
 </head>
 <body>
-<jsp:include page="_header.jsp"/>
 <jsp:include page="_bootstrap.jsp"/>
-
-<div class="container">
-    <div class="container text-center">
-        <div class="row align-items-start">
-            <div class="col">
-
-            </div>
-            <div class="col-4 mt-5 ">
-
-                <form action="createPost" method="post" enctype="multipart/form-data">
-                    <div class="mb-3">
-                        <label for="file">Загрудить файл:</label>
-                        <input type="file" id="file" name="file" class="form-control" required>
-
-                    </div>
-                    <div class="mb-3">
-                        <label for="description">Описание:</label>
-                        <input type="text" id="description" class="form-control" name="description" required>
-                    </div>
+<jsp:include page="_instaHeader.jsp"/>
 
 
-                    <button type="submit" class="btn btn-primary">Создать пост</button>
+<div class="row justify-content-center">
+    <div class="col-4">
+        <div class="container">
+            <form action="/create-post" method="post" enctype="multipart/form-data">
+                <p class="fs-6">    </p>
 
+                <h4>
+                    <div class="text-center mb-3" style="width: calc(100% - 0px);"><%=text%></div>
+                </h4>
 
-                </form>
+                <div class="input-group flex-nowrap mb-3">
+                    <input name="photo" type="file" class="form-control" placeholder="link" aria-label="link" aria-describedby="addon-wrapping" required>
+                </div>
 
-            </div>
-            <div class="col">
+                <div class="form-floating">
+                    <textarea name="description" class="form-control" placeholder="Leave a description here" id="floatingTextarea" maxlength="2200" required></textarea>
+                    <label for="floatingTextarea"><%=description%></label>
+                </div>
 
+                <p class="fs-6">    </p>
 
-
-            </div>
+                <div class="d-grid gap-2 col-6 mx-auto">
+                    <button class="btn btn-primary" type="submit"><%=button%></button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

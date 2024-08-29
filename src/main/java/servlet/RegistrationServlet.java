@@ -10,11 +10,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.InputStream;
 
 @WebServlet(value = "/registration", name = "RegistrationServlet")
 public class RegistrationServlet extends HttpServlet {
     private final AccountService accountService = AccountService.getInstance();
-
+    private final static String NAME = "name";
+    private final static String SURNAME = "surname";
+    private final static String USERNAME = "username";
+    private final static String EMAIL = "email";
+    private final static String PASSWORD = "password";
+    private final static String PHOTO = "filePathPhoto";
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         getServletContext().getRequestDispatcher("/pages/registration.jsp").forward(req, resp);
@@ -22,10 +28,14 @@ public class RegistrationServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        String username = req.getParameter("username");
-        String password = req.getParameter("password");
+        InputStream photoInputStream = req.getPart(PHOTO).getInputStream();
+        String name = req.getParameter(NAME);
+        String surname = req.getParameter(SURNAME);
+        String username = req.getParameter(USERNAME);
+        String email = req.getParameter(EMAIL);
+        String password = req.getParameter(PASSWORD);
         String hashPassword = BCrypt.hashpw(password, BCrypt.gensalt());
-        String email = req.getParameter("email");
+
 
         try {
             accountService.save(new Account(username, hashPassword, email));

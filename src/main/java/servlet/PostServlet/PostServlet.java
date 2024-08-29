@@ -1,4 +1,4 @@
-package servlet;
+package servlet.PostServlet;
 
 import core.model.Post;
 import lombok.SneakyThrows;
