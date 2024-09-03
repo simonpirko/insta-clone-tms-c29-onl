@@ -27,7 +27,7 @@
 </head>
 <body>
 <jsp:include page="_bootstrap.jsp"/>
-<jsp:include page="_instaHeader.jsp"/>
+<jsp:include page="_header.jsp"/>
 
 <div class="container-fluid bg-3 text-center border-bottom">
     <br>
@@ -35,20 +35,20 @@
         <div class="col-md d-flex align-items-center justify-content-center">
             <c:choose>
                 <c:when test="${viewedUser.getStories().size() > 0}">
-                    <a class="avatar-border" href="/account?username=${viewedUser.getUsername()}">
-                        <img src="data:image/jpg;base64,${viewedUser.getPhoto()}" width="150" height="150" alt="fsd"/>
+                    <a class="avatar-border" href="/account?username=${viewedAccount.getUsername()}">
+                        <img src="data:image/jpg;base64,${viewedUser.getFilePathPhoto()}" width="150" height="150" alt="fsd"/>
                     </a>
                 </c:when>
                 <c:otherwise>
-                    <img src="data:image/jpg;base64,${viewedUser.getPhoto()}" width="150" height="150" alt="fsd"/>
+                    <img src="data:image/jpg;base64,${viewedUser.getFilePathPhoto()}" width="150" height="150" alt="fsd"/>
                 </c:otherwise>
             </c:choose>
         </div>
         <div class="col-md text-md-start">
-            <h3>${viewedUser.getName()} ${viewedUser.getSurname()}</h3>
-            <h4>@${viewedUser.getUsername()}</h4>
+            <h3>${viewedAccount.getName()} ${viewedAccount.getSurname()}</h3>
+            <h4>@${viewedAccount.getUsername()}</h4>
 
-            <c:if test="${viewedUser.getUsername() == user.getUsername()}">
+            <c:if test="${viewedAccount.getUsername() == account.getUsername()}">
                 <a href="/edit-profile" class="btn btn-sm btn-danger" role="button" aria-pressed="true"><%=edit%>
                 </a>
             </c:if>
@@ -61,12 +61,12 @@
                     <a class="col" href="#">${followingCount} <%=following%>
                     </a>
                 </div>
-                <c:if test="${viewedUser.getUsername() != account.getUsername()}">
+                <c:if test="${viewedAccount.getUsername() != account.getUsername()}">
                     <br>
                     <div class="row">
                         <c:if test="${isAlreadyFollowed == true}">
                             <form action="/unfollow" method="post">
-                                <input type="hidden" value="${viewedUser.getUsername()}" name="child">
+                                <input type="hidden" value="${viewedAccount.getUsername()}" name="child">
 
                                 <input type="submit" value="Unfollow">
                             </form>
@@ -74,7 +74,7 @@
 
                         <c:if test="${isAlreadyFollowed == false}">
                             <form action="/follow" method="post">
-                                <input type="hidden" value="${viewedUser.getUsername()}" name="child">
+                                <input type="hidden" value="${viewedAccount.getUsername()}" name="child">
 
                                 <input type="submit" value="Follow">
                             </form>
@@ -92,11 +92,11 @@
 <div class="border-bottom">
     <div class="container-fluid text-center">
         <div class="row">
-            <c:forEach items="${userPosts}" var="item">
+            <c:forEach items="${accountPosts}" var="item">
                 <div class="col-sm-4">
                     <div class="card" style="width: 100%">
                         <a href="#">
-                            <img class="card-img-top" src="data:image/jpg;base64,${item.getPhoto()}"
+                            <img class="card-img-top" src="data:image/jpg;base64,${item.getFilePathPhoto()}"
                                  style="width:100%; height: auto;  aspect-ratio: 16/9" alt="Image"/>
                         </a>
 
@@ -106,9 +106,9 @@
 
                         <br>
 
-                        <c:if test="${viewedUser.getUsername() == account.getUsername()}">
+                        <c:if test="${viewedAccount.getUsername() == account.getUsername()}">
                             <div class="d-flex justify-content-end">
-                                <form action="/user/remove_post" method="post">
+                                <form action="/account/remove_post" method="post">
                                     <input type="hidden" name="postId" value="${item.getId()}">
                                     <button class="btn btn-primary btn-sm" type="submit">
                                         <%=Delete%>

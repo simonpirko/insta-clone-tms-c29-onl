@@ -26,7 +26,7 @@ public class UnlikeServlet extends HttpServlet {
         Optional<Post> postById = postService.findById((post_id));
         if (postById.isPresent()) {
             likeService.removeByAccountAndPost(account, postById.get());
-            resp.sendRedirect("/user/viewpost?id=" + post_id);
+            resp.sendRedirect("/account/viewpost?id=" + post_id);
         }
     }
 }

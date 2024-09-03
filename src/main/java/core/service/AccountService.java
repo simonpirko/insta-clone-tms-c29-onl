@@ -27,9 +27,9 @@ public class AccountService {
        return accountDAO.save(account);
     }
 
-    public Optional<Account> login(String usernameOrEmail, String password) throws InvalidAccountPasswordException {
+    public Optional<Account> login(String username, String password) throws InvalidAccountPasswordException {
 
-        Optional<Account> accountByUsername = accountDAO.getByUsername(usernameOrEmail);
+        Optional<Account> accountByUsername = accountDAO.getByUsername(username);
         if (accountByUsername.isPresent()) {
             if (BCrypt.checkpw(password, accountByUsername.get().getPassword())) {
                 return accountByUsername;
@@ -37,19 +37,15 @@ public class AccountService {
                 throw new InvalidAccountPasswordException();
             }
         }
-        Optional<Account> accountByEmail = accountDAO.getByEmail(usernameOrEmail);
-        if (accountByEmail.isPresent()) {
-            if (BCrypt.checkpw(password, accountByEmail.get().getPassword())) {
-                return accountByEmail;
-            } else {
-                throw new InvalidAccountPasswordException();
-            }
-        }
+
         return Optional.empty();
     }
 
     public void update(Account account) {
         accountDAO.update(account);
+    }
+    public Optional<Account> findAccountByName(String accountName) {
+        return accountDAO.getByUsername(accountName);
     }
 }
 

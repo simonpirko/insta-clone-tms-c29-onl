@@ -68,10 +68,10 @@ public class InDBPostDao implements PostDao<Integer> {
                         .name(resultSet.getString(7))
                         .surname(resultSet.getString(8))
                         .username(resultSet.getString(9))
-                        .filePathPhoto((Base64.getEncoder().encodeToString(resultSet.getBytes(10)))
+                        .filePathPhoto(Base64.getEncoder().encodeToString(resultSet.getBytes(10)))
                         .email(resultSet.getString(11))
                         .password(resultSet.getString(12))
-                        .build());
+                        .build();
 
                 post.setAccount(account);
 

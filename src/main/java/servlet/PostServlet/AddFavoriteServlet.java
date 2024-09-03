@@ -24,6 +24,6 @@ public class AddFavoriteServlet extends HttpServlet {
 
         favoritePost.ifPresent(post -> postService.saveFavorite(account, post));
 
-        resp.sendRedirect("/user/viewpost?id=" + postId);
+        resp.sendRedirect("/account/viewpost?id=" + postId);
     }
 }

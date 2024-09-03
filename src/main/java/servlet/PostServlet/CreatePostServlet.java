@@ -5,6 +5,7 @@ import core.model.Post;
 import core.service.PostService;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +18,11 @@ import java.util.Base64;
 import java.util.Optional;
 
 @WebServlet("/create-post")
+@MultipartConfig(
+        fileSizeThreshold = 1024 * 1024,
+        maxFileSize = 1024 * 1024 * 5,
+        maxRequestSize = 1024 * 1024 * 5 * 5
+)
 public class CreatePostServlet extends HttpServlet {
     private final PostService postService = PostService.getInstance();
 
@@ -49,7 +55,7 @@ public class CreatePostServlet extends HttpServlet {
 
         }
 
-        resp.sendRedirect("/");
+        resp.sendRedirect("/pages/viewpost");
     }
 }
 

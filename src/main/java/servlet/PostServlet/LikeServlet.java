@@ -38,7 +38,7 @@ public class LikeServlet extends HttpServlet {
 
             likeService.saveForPost(like);
 
-            resp.sendRedirect("/user/viewpost?id=" + postId);
+            resp.sendRedirect("/account/viewpost?id=" + postId);
         }
     }
 }
