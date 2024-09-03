@@ -24,6 +24,6 @@ public class RemovePostServlet extends HttpServlet {
 
         }
 
-        resp.sendRedirect("/user/profile?username=" + account.getUsername());
+        resp.sendRedirect("/account/profile?username=" + account.getUsername());
     }
 }

@@ -11,7 +11,6 @@
     <title>Login</title>
 </head>
 <body>
-<jsp:include page="_bootstrap.jsp"/>
 <jsp:include page="_header.jsp"/>
 
 <div class="container">

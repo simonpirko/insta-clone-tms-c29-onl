@@ -2,9 +2,7 @@ package core.model;
 
 import lombok.*;
 
-//@Data
-//@AllArgsConstructor
-//@NoArgsConstructor
+
 @Builder
 @Data
 @AllArgsConstructor
@@ -23,11 +21,6 @@ public class Account {
     private Iterable<Comment> comments;
     private Iterable<Like> likes;
 
-    public Account(String username, String password, String email) {
-        this.username = username;
-        this.password = password;
-        this.email = email;
-    }
 
     @Override
     public String toString() {

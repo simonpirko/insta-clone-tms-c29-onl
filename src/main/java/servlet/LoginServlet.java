@@ -13,9 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
-@WebServlet(value = "/login", name = "LoginServlet")
+@WebServlet("/login")
 public class LoginServlet extends HttpServlet {
-    private final AccountService service = AccountService.getInstance();
+    private final AccountService accountService = AccountService.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -28,18 +28,35 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String usernameOrEmail = req.getParameter("username_or_email");
         String password = req.getParameter("password");
-        try {
-            Optional<Account> login = service.login(usernameOrEmail, password);
-            if (login.isPresent()) {
-                Account account = login.get();
+        Optional<Account> accountByName = accountService.findAccountByName(usernameOrEmail);
+
+        if (accountByName.isPresent()) {
+            Account account = accountByName.get();
+
+            if (account.getPassword().equals(password)) {
                 req.getSession().setAttribute("account", account);
-                resp.sendRedirect("/home");
+
+                resp.sendRedirect("/");
             } else {
-                throw new AccountNotFoundException();
+                req.setAttribute("passwordStatus", "Invalid password");
+                getServletContext().getRequestDispatcher("/pages/login.jsp").forward(req, resp);
             }
-        } catch (InvalidAccountPasswordException | AccountNotFoundException e) {
-            req.setAttribute("errorMessage", e.getMessage());
+        } else {
+            req.setAttribute("usernameStatus", "Invalid username");
             getServletContext().getRequestDispatcher("/pages/login.jsp").forward(req, resp);
         }
+//        try {
+//            Optional<Account> login = accountService.login(usernameOrEmail, password);
+//            if (login.isPresent()) {
+//                Account account = login.get();
+//                req.getSession().setAttribute("account", account);
+//                resp.sendRedirect("/");
+//            } else {
+//                throw new AccountNotFoundException();
+//            }
+//        } catch (InvalidAccountPasswordException | AccountNotFoundException e) {
+//            req.setAttribute("errorMessage", e.getMessage());
+//            getServletContext().getRequestDispatcher("/pages/login.jsp").forward(req, resp);
+//        }
     }
 }

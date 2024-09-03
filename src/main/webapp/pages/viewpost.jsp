@@ -18,7 +18,7 @@
 </head>
 <body>
 <jsp:include page="_bootstrap.jsp"/>
-<jsp:include page="_instaHeader.jsp"/>
+<jsp:include page="_header.jsp"/>
 <div class="container mt-3">
     <div class="text-end">
         <button onclick="history.back()" class="btn border-0">[x]<%=button%>
